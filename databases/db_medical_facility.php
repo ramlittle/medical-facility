@@ -20,14 +20,4 @@
     }
 
   }
-
-  $db = new db_medical_facility();
-$conn = $db->getConnection();
-
-if ($conn) {
-    echo "Database connection successful!";
-} else {
-    echo "Database connection failed.";
-}
-
 ?>
