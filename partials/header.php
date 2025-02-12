@@ -8,8 +8,8 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Francis M. Marasigan">
 
-  <link rel="icon" href="img/DOH-logo.png">
-  <title>Patient Registration System</title>
+  <link rel="icon" href="https://media.istockphoto.com/id/471629610/vector/caduceus-medical-symbol.jpg?s=612x612&w=0&k=20&c=jLnfdQQphRwsmm6wo0O80sEo-5PhbEY4PHmQgBiRkq0=">
+  <title>Medical Facility</title>
   
   <!-- Bootstrap 5.3.2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -64,6 +64,3 @@
 
 </head>
 <body>
-    
-</body>
-</html>
