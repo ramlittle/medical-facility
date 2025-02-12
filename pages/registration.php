@@ -14,13 +14,6 @@ if ($_POST) {
     $user->is_active = 1;
     $user->is_admin = 0;//default access level for standard user
     $user->createUser();
-    // if ($user->createUser() === true) {
-    //     echo "<div class='success-box show-then-fade'>Registration is Successful!</div>";
-    // } elseif ($user->createUser() === 'username_exists') {
-    //     echo "<div class='exist-box show-then-fade'>username already exists!</div>";
-    // } else {
-    //     echo "<div class='fail-box show-then-fade'>Failed Adding!</div>";
-    // }
 }
 
 ?>

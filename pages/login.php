@@ -1,14 +1,28 @@
-<?php include '../partials/header.php' ?>
+<?php
+    include '../partials/header.php';
+    include_once "../databases/db_medical_facility.php";
+    include_once "../classes/cl_user.php";
+
+    $db = new db_medical_facility();
+    $dbase = $db->getConnection();
+    $user = new cl_user($dbase);
+
+    if ($_POST) {
+        $user->username = $_POST['username'];
+        $user->password = $_POST['password'];
+        $user->verifyLogin();
+}
+?>
 
 <section class="bg-light d-flex flex-column justify-content-center align-items-center" style="height:100vh;">
     <div>
         <h2 class="text-dark">Login</h2>
     </div>
     <div class="mb-5 p-1 bg-dark w-25"></div>
-    <form action="" method="post" class="d-flex flex-column w-25">
+    <form action="" method="POST" class="d-flex flex-column w-25">
         <div class="w-100 d-flex flex-column">
-            <label class='text-dark' for="email">Username:</label>
-            <input class='p-2' type="email" id="email" name="username" placeholder='ex. patient_one' required><br><br>
+            <label class='text-dark' for="username">Username:</label>
+            <input class='p-2' type="text" id="username" name="username" placeholder='ex. patient_one' required><br><br>
         </div>
 
         <div class="w-100 d-flex flex-column">

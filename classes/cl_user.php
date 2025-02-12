@@ -25,7 +25,7 @@ class cl_user
     }
 
     public function createUser()
-    {
+{
         // Check if username already exists
         if ($this->isUsernameExists($this->username)) {
             echo "
@@ -78,7 +78,40 @@ class cl_user
                             icon: 'error'
                         });
                     </script>";
-                    }
-                }
             }
+        }
+    }
+
+    public function verifyLogin() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        // Fetch user from database
+        $query = "SELECT user_id, username, password, is_admin,is_active FROM users WHERE username = :username";
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(':username', $this->username, PDO::PARAM_STR);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+    
+        // Verify password
+        if ($user && password_verify($this->password, $user['password'])) {
+            // Store only necessary data in session
+            $_SESSION['user'] = [
+                'id'       => $user['user_id'],
+                'username' => $user['username'],
+                'is_admin' => $user['is_admin'],
+                'is_active'=> $user['is_active']
+            ];
+    
+            // Redirect to dashboard
+            header("Location: ./dashboard.php");
+            exit();
+        } else {
+            // Redirect with error message
+            header("Location: ./login.php?error=1");
+            exit();
+        }
+    }
+    
 }
