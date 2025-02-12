@@ -29,7 +29,7 @@ CREATE TABLE personal_informations(
 	FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE contacts_informations(
+CREATE TABLE contact_informations(
 	contact_information_id bigint(20) NOT NULL AUTO_INCREMENT,
 	mobile_number int(11) DEFAULT NULL,
 	email varchar(255) DEFAULT NULL,
