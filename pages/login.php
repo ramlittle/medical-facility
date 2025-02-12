@@ -2,7 +2,7 @@
     include '../partials/header.php';
     include_once "../databases/db_medical_facility.php";
     include_once "../classes/cl_user.php";
-
+    include_once '../partials/check_if_session_exists.php';
     $db = new db_medical_facility();
     $dbase = $db->getConnection();
     $user = new cl_user($dbase);

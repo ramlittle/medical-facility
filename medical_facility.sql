@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2025 at 09:49 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Feb 12, 2025 at 08:21 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts_informations`
+-- Table structure for table `contact_informations`
 --
 
-CREATE TABLE `contacts_informations` (
+CREATE TABLE `contact_informations` (
   `contact_information_id` bigint(20) NOT NULL,
   `mobile_number` int(11) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -98,13 +98,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `password`, `is_active`, `is_admin`, `created_at`, `updated_at`) VALUES
+(1, 'a', '$2y$10$xgvo58wah5yES8G1UbVlSOlQToTD7ikWiZn3TJ8jQI1EFs0pc97Xi', 1, 0, '2025-02-13 01:06:20', '2025-02-13 01:06:20');
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `contacts_informations`
+-- Indexes for table `contact_informations`
 --
-ALTER TABLE `contacts_informations`
+ALTER TABLE `contact_informations`
   ADD PRIMARY KEY (`contact_information_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -133,9 +140,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `contacts_informations`
+-- AUTO_INCREMENT for table `contact_informations`
 --
-ALTER TABLE `contacts_informations`
+ALTER TABLE `contact_informations`
   MODIFY `contact_information_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -154,17 +161,17 @@ ALTER TABLE `personal_informations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `contacts_informations`
+-- Constraints for table `contact_informations`
 --
-ALTER TABLE `contacts_informations`
-  ADD CONSTRAINT `contacts_informations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+ALTER TABLE `contact_informations`
+  ADD CONSTRAINT `contact_informations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `contact_persons`

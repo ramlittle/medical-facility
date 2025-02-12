@@ -1,12 +1,9 @@
 <?php 
     include '../partials/header.php';
-    include '../partials/check_login.php'
+    require_once '../partials/check_if_no_session_exists.php';
 ?>
 <section>
-    <div>
-        <span>Dashboard</span>
-        <span>Welcome, <?php echo $user['username']?></span>
-    </div>
+    <?php include '../partials/menu.php'?>
     <div>
 
     </div>
