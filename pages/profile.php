@@ -17,6 +17,7 @@ if (isset($_POST['createPersonalInformationButton'])) {
     $personal_information->suffix_name = $_POST['suffix_name'];
     $personal_information->sex = $_POST['sex'];
     $personal_information->date_of_birth = $_POST['date_of_birth'];
+    $personal_information->place_of_birth = $_POST['place_of_birth'];
     $personal_information->civil_status = $_POST['civil_status'];
     $personal_information->employment_status = $_POST['employment_status'];
     $personal_information->religion = $_POST['religion'];
@@ -34,6 +35,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
     $personal_information->suffix_name = $_POST['update_suffix_name'];
     $personal_information->sex = $_POST['update_sex'];
     $personal_information->date_of_birth = $_POST['update_date_of_birth'];
+    $personal_information->place_of_birth = $_POST['update_place_of_birth'];
     $personal_information->civil_status = $_POST['update_civil_status'];
     $personal_information->employment_status = $_POST['update_employment_status'];
     $personal_information->religion = $_POST['update_religion'];
@@ -55,16 +57,17 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                     If you need any help or have any questions, don't hesitate to ask.
                     We're here to make your visit as comfortable and convenient as possible.</p>
             </div>
-            <div class='w-50'>
+            <div class='w-75'>
                 <h2 class='text-center'>Personal Information</h2>
                 <?php
                 if (is_array($obtained_personal_information) && !empty($obtained_personal_information)) {
                     if ($personal_information->isPersonalInformationExisting($user['user_id'])) {
                         echo "
-                                <div class='d-flex flex-column justify-content-center align-items-center'>
-                                    <img src='" . $obtained_personal_information['image_url'] . "' style='height:10rem;width:10rem; border:0.5rem solid black; border-radius: 100%;'/>
+                        <div class='d-flex justify-content-evenly align-items-center gap-1'>
+                                <div class='d-flex justify-content-center align-items-center'>
+                                    <img src='" . $obtained_personal_information['image_url'] . "' style='height:8rem;width:8rem; border:0.3rem solid black; border-radius: 100%;'/>
                                 </div>
-                                <div class='mt-5 d-flex flex-column gap-2'>
+                                <div class='mt-5 d-flex flex-column gap-1'>
                                     <div class='d-flex justify-content-evenly'>
                                         <div class='d-flex gap-1'>
                                             <label>Given Name:</label>
@@ -125,21 +128,22 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                         </div>
                                     </div>
                                 </div>
-
-                               <div>
-                                    <a href='#' id='edit-locator-slip' type='button' class='btn btn-sm text-info' 
-                                    data-bs-toggle='modal' data-bs-target='#updatePersonalInformationModal' 
-                                    data-bs-toggle='tooltip' title='Update Record' 
-                                    data-row='" . htmlspecialchars(json_encode($obtained_personal_information, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') . "'>
-                                        <i class='fa-solid fa-edit fa-lg'></i>
-                                    </a>
-                                </div>";
+                        </div>
+                        <div class='w-100 mt-3 d-flex justify-content-center align-items-center'>
+                            <a href='#' id='edit-locator-slip' type='button' class='btn btn-sm' style='color:#FFF; background-color: #333;'
+                                data-bs-toggle='modal' data-bs-target='#updatePersonalInformationModal' 
+                                data-bs-toggle='tooltip' title='Update Record' 
+                                data-row='" . htmlspecialchars(json_encode($obtained_personal_information, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') . "'>
+                                    <i class='fa-solid fa-edit fa-lg'></i>Update Personal Information
+                            </a>
+                        </div>          
+                                ";
                     }
                 } else {
                     echo "
-                            <div>
-                                <p>Looks like you don't have any information yet. Click the button below to enter your personal information</p>
-                                <button type='button' class='btn btn-sm' style='color:#FFF; background-color: #143601;'
+                            <div class='d-flex flex-column justify-content-center'>
+                                <p class='text-center'>Looks like you don't have any information yet. Click the button below to enter your personal information</p>
+                                <button type='button' class='btn btn-sm' style='color:#FFF; background-color: #333;'
                                     data-bs-toggle='modal' data-bs-target='#createPersonalInformationModal'>
                                     <i class='fa fa-add'></i> Enter Personal Information
                                 </button>
@@ -155,7 +159,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
 
     <!-- Create Personal Information -->
     <div class='modal fade' id='createPersonalInformationModal' data-bs-backdrop='static' data-bs-keyboard='false'>
-        <div class='modal-dialog modal-lg'>
+        <div class='modal-dialog modal-xl'>
             <div class='modal-content'>
                 <div class='modal-header'>
                     <h1 class='modal-title fs-5' id='exampleModalLabel'>Create Personal Information</h1>
@@ -163,34 +167,40 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                 </div>
                 <form method='POST' autocomplete='false'>
                     <div class='modal-body'>
-                        <div class='form-row'>
+                        <div class='row'>
                             <div class='form-group col-md-12'>
                                 <small class='font-weight-bold mt-1'>Image URL</small>
                                 <input type='text' id='image-url' name='image_url' class='form-control form-control-sm'
                                     placeholder='Example: https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png'
                                     />
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-3">
                                 <small class='font-weight-bold mt-1'>Given Name</small>
                                 <input type='text' id='given-name' name='given_name'
                                     class='form-control form-control-sm' placeholder='Example: Juan' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Middle Name</small>
                                 <input type='text' id='middle-name' name='middle_name'
                                     class='form-control form-control-sm' placeholder='Example: Dela' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Last Name</small>
                                 <input type='text' id='last-name' name='last_name' class='form-control form-control-sm'
                                     placeholder='Example: Cruz' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Suffix Name</small>
                                 <input type='text' id='suffix-name' name='suffix_name'
                                     class='form-control form-control-sm' placeholder='Example: Jr., Sr. etc' />
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+
+                        <div class='row'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Sex</small>
                                 <select id='sex' name='sex' class='form-control form-control-sm'>
                                     <option value='Others'>Others</option>
@@ -198,18 +208,18 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Female'>Female</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Date of Birth</small>
                                 <input id='date-of-birth' name='date_of_birth' type='date'
                                     class='form-control form-control-sm' />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Place of Birth</small>
                                 <input type='text' id='place-of-birth' name='place_of_birth'
                                     class='form-control form-control-sm' placeholder='Example: Baguio City Benguet'
                                     required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Civil Status</small>
                                 <select id='civil-status' name='civil_status' class='form-control form-control-sm'>
                                     <option value='Single'>Single</option>
@@ -219,7 +229,10 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Not Applicable'>Not Applicable</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+
+                        <div class='row'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Employment Status</small>
                                 <select id='employment-status' name='employment_status'
                                     class='form-control form-control-sm'>
@@ -228,12 +241,12 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Self Employed'>Self Employed</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Religion</small>
                                 <input type='text' id='religion' name='religion' class='form-control form-control-sm'
                                     placeholder='Example: Roman Catholic' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Nationality</small>
                                 <input type='text' id='nationality' name='nationality'
                                     class='form-control form-control-sm' placeholder='Example: Filipino' required />
@@ -242,7 +255,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                     </div>
                     <div class='modal-footer'>
                         <button type='submit' class='btn btn-sm' name='createPersonalInformationButton'
-                            style='color:#FFF; background-color: #143601;'>Submit</button>
+                            style='color:#FFF; background-color: #333;'>Submit</button>
                     </div>
                 </form>
             </div>
@@ -251,7 +264,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
 
     <!-- Update Personal Information -->
     <div class='modal fade' id='updatePersonalInformationModal' data-bs-backdrop='static' data-bs-keyboard='false'>
-        <div class='modal-dialog modal-lg'>
+        <div class='modal-dialog modal-xl'>
             <div class='modal-content'>
                 <div class='modal-header'>
                     <h1 class='modal-title fs-5' id='exampleModalLabel'>Create Personal Information</h1>
@@ -259,38 +272,44 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                 </div>
                 <form method='POST' autocomplete='false'>
                     <div class='modal-body'>
-                        <div class='form-row'>
-                            <div class="form-group col-md-6">
+                        <div class='row'>
+                            <div class="form-group col-md-6" hidden>
                                 <small class="font-weight-bold mt-1">Personal Information Id</small>
                                 <input id="update-personal-information-id" type="text" class="form-control form-control-sm" name="update_personal_information_id" readonly/>
                             </div>
+                        </div>
+                        <div class='row'>
                             <div class='form-group col-md-12'>
                                 <small class='font-weight-bold mt-1'>Image URL</small>
                                 <input type='text' id='update-image-url' name='update_image_url' class='form-control form-control-sm'
                                     placeholder='Example: https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png'
                                     />
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+                        <div class='row'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Given Name</small>
                                 <input type='text' id='update-given-name' name='update_given_name'
                                     class='form-control form-control-sm' placeholder='Example: Juan' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Middle Name</small>
                                 <input type='text' id='update-middle-name' name='update_middle_name'
                                     class='form-control form-control-sm' placeholder='Example: Dela' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Last Name</small>
                                 <input type='text' id='update-last-name' name='update_last_name' class='form-control form-control-sm'
                                     placeholder='Example: Cruz' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Suffix Name</small>
                                 <input type='text' id='update-suffix-name' name='update_suffix_name'
                                     class='form-control form-control-sm' placeholder='Example: Jr., Sr. etc' />
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+                        <div class='row'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Sex</small>
                                 <select id='update-sex' name='update_sex' class='form-control form-control-sm'>
                                     <option value='Others'>Others</option>
@@ -298,18 +317,18 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Female'>Female</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Date of Birth</small>
                                 <input id='update-date-of-birth' name='update_date_of_birth' type='date'
                                     class='form-control form-control-sm' />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Place of Birth</small>
                                 <input type='text' id='update-place-of-birth' name='update_place_of_birth'
                                     class='form-control form-control-sm' placeholder='Example: Baguio City Benguet'
                                     required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Civil Status</small>
                                 <select id='update-civil-status' name='update_civil_status' class='form-control form-control-sm'>
                                     <option value='Single'>Single</option>
@@ -319,7 +338,9 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Not Applicable'>Not Applicable</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                        </div>
+                        <div class='row'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Employment Status</small>
                                 <select id='update-employment-status' name='update_employment_status'
                                     class='form-control form-control-sm'>
@@ -328,12 +349,12 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Self Employed'>Self Employed</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Religion</small>
                                 <input type='text' id='update-religion' name='update_religion' class='form-control form-control-sm'
                                     placeholder='Example: Roman Catholic' required />
                             </div>
-                            <div class='form-group col-md-12'>
+                            <div class='form-group col-md-4'>
                                 <small class='font-weight-bold mt-1'>Nationality</small>
                                 <input type='text' id='update-nationality' name='update_nationality'
                                     class='form-control form-control-sm' placeholder='Example: Filipino' required />
@@ -341,8 +362,8 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                         </div>
                     </div>
                     <div class='modal-footer'>
-                        <button type='submit' class='btn btn-sm' name='createPersonalInformationButton'
-                            style='color:#FFF; background-color: #143601;'>Submit</button>
+                        <button type='submit' class='btn btn-sm' name='updatePersonalInformationButton'
+                            style='color:#FFF; background-color: #333;'>Submit</button>
                     </div>
                 </form>
             </div>

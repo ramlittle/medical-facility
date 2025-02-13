@@ -11,6 +11,7 @@ class cl_user
     public $is_active;
 
     //PERSONAL INFOS
+    public $personal_information_id;
     public $image_url;
     public $given_name;
     public $middle_name;
@@ -238,6 +239,64 @@ class cl_user
         $statement->execute();
 
         return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePersonalInformation(){    
+        $query = "UPDATE personal_informations
+                    SET image_url = :image_url,
+                    given_name = :given_name,
+                    middle_name = :middle_name,
+                    last_name = :last_name,
+                    suffix_name =:suffix_name,
+                    sex = :sex,
+                    date_of_birth = :date_of_birth,
+                    place_of_birth = :place_of_birth,
+                    civil_status = :civil_status,
+                    employment_status = :employment_status,
+                    religion = :religion,
+                    nationality = :nationality
+                    WHERE personal_information_id = :personal_information_id";        
+        $statement = $this->conn->prepare($query);        
+        
+        $statement->bindParam(':image_url', $this->image_url, PDO::PARAM_STR);
+        $statement->bindParam(':given_name', $this->given_name, PDO::PARAM_STR);
+        $statement->bindParam(':middle_name', $this->middle_name, PDO::PARAM_STR);
+        $statement->bindParam(':last_name', $this->last_name, PDO::PARAM_STR);
+        $statement->bindParam(':suffix_name', $this->suffix_name, PDO::PARAM_STR);
+        $statement->bindParam(':sex', $this->sex, PDO::PARAM_STR);
+        $statement->bindParam(':date_of_birth', $this->date_of_birth, PDO::PARAM_STR);
+        $statement->bindParam(':place_of_birth', $this->place_of_birth, PDO::PARAM_STR);
+        $statement->bindParam(':civil_status', $this->civil_status, PDO::PARAM_STR);
+        $statement->bindParam(':employment_status', $this->employment_status, PDO::PARAM_STR);
+        $statement->bindParam(':religion', $this->religion, PDO::PARAM_STR);
+        $statement->bindParam(':nationality', $this->nationality, PDO::PARAM_STR);
+        $statement->bindParam(':personal_information_id', $this->personal_information_id, PDO::PARAM_INT);
+
+        if($statement->execute()) {
+            echo "
+            <script>
+                let timerInterval;
+                Swal.fire({
+                    icon: 'success',
+                    html:
+                        '<span>You have successfully ' +
+                        '<b>updated</b> ' +
+                        'a record!</span>',
+                        showConfirmButton: false,
+                        timer: 3000
+                }).then(function() {
+                    window.location.href='profile.php';
+                });
+            </script>";   		
+        } else {
+            echo "
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error'
+                });
+            </script>";
+        }
     }
     
 }
