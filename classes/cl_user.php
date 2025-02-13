@@ -11,6 +11,7 @@ class cl_user
     public $is_active;
 
     //PERSONAL INFOS
+    public $image_url;
     public $given_name;
     public $middle_name;
     public $last_name;
@@ -126,7 +127,20 @@ class cl_user
             exit();
         } else {
             // Redirect with error message
-            header("Location: ./login.php?error=1");
+            echo "
+                <script>
+                        let timerInterval;
+                        Swal.fire({
+                            icon: 'warning',
+                            html:
+                                '<span>Login Failed! Invalid Credentials!</span>',
+                                showConfirmButton: false,
+                                timer: 3000
+                        }).then(function() {
+                            window.location.href='./login.php?error=1';
+                        });
+                    </script>";
+            // header("Location: ./login.php?error=1");
             exit();
         }
     }
@@ -134,7 +148,8 @@ class cl_user
     // Personal informations
     public function createPersonalInformation(){
         $query = "INSERT INTO personal_informations 
-                SET given_name = :given_name,
+                SET image_url = :image_url,
+                given_name = :given_name,
                 middle_name = :middle_name,
                 last_name=:last_name,
                 suffix_name = :suffix_name,
@@ -149,6 +164,7 @@ class cl_user
                 ";
             $statement = $this->conn->prepare($query);            
 
+            $statement->bindParam(':image_url', $this->image_url, PDO::PARAM_STR);
             $statement->bindParam(':given_name', $this->given_name, PDO::PARAM_STR);
             $statement->bindParam(':middle_name', $this->middle_name, PDO::PARAM_STR);
             $statement->bindParam(':last_name', $this->last_name, PDO::PARAM_STR);
@@ -171,7 +187,7 @@ class cl_user
                             html:
                                 '<span>Success!</span>',
                                 showConfirmButton: false,
-                                timer: 5000
+                                timer: 1000
                         }).then(function() {
                             window.location.href='profile.php';
                         });
@@ -195,6 +211,33 @@ class cl_user
         $row = $statement->fetch(PDO::FETCH_ASSOC);
 
         return $row['count'] > 0;
+    }
+
+    public function readPersonalInformation($user_id){
+        $query = "SELECT 
+                personal_information_id,
+                image_url,
+                given_name, 
+                middle_name,
+                last_name,
+                suffix_name,
+                sex,
+                date_of_birth,
+                place_of_birth,
+                civil_status,
+                employment_status,
+                religion,
+                nationality,
+                user_id
+                FROM personal_informations            
+                WHERE user_id = :user_id 
+            ";
+
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
     
 }
