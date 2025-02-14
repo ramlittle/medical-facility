@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2025 at 10:24 AM
+-- Generation Time: Feb 14, 2025 at 11:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,8 +51,9 @@ CREATE TABLE `personal_informations` (
 --
 
 INSERT INTO `personal_informations` (`personal_information_id`, `image_url`, `given_name`, `middle_name`, `last_name`, `suffix_name`, `sex`, `date_of_birth`, `place_of_birth`, `civil_status`, `employment_status`, `religion`, `nationality`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png/revision/latest?cb=20220807020103', 'Juan', 'Dela Cruz', 'lito', '', 'Male', '2025-02-13', NULL, 'Married', 'Employed', 'Roman Catholic', 'Filipino', 1, '2025-02-13 15:05:34', '2025-02-13 16:15:05'),
-(5, 'https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png/revision/latest?cb=20220807020103', 'Juan', 'Dela Cruz', 'lito', 'Jr.', 'Others', '2025-02-13', NULL, 'Single', 'Unemployed', 'Roman Catholic', 'Filipino', 2, '2025-02-13 16:33:15', '2025-02-13 16:33:15');
+(1, 'https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png/revision/latest?cb=20220807020103', 'Patient', 'One', 'One', '', 'Male', '2000-02-14', 'Agoo La Union', 'Single', 'Unemployed', 'Roman Catholic', 'American', 2, '2025-02-14 18:45:52', '2025-02-14 18:47:27'),
+(2, 'https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png/revision/latest?cb=20220807020103', 'Patient', 'Two', 'Two', '', 'Female', '2001-02-14', 'AGOO LA UNION', 'Single', 'Unemployed', 'Roman Catholic', 'Filipino', 3, '2025-02-14 18:49:42', '2025-02-14 18:49:42'),
+(3, 'https://static.wikia.nocookie.net/spongebob/images/c/ca/Mermaid_Man_stock_art.png/revision/latest?cb=20220807020103', 'Patient', 'Three', 'Three', '', 'Male', '2002-02-14', 'Tayabas, Quezon Province', 'Single', 'Unemployed', 'Roman Catholic', 'Filipino', 4, '2025-02-14 18:50:38', '2025-02-14 18:50:38');
 
 -- --------------------------------------------------------
 
@@ -75,8 +76,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `is_active`, `is_admin`, `created_at`, `updated_at`) VALUES
-(1, 'a', '$2y$10$LBx7eUmxR9cGAnHqxQgFaOWv94HATzuVkYM0B.tajxLg07xppHsvy', 1, 0, '2025-02-13 08:53:44', '2025-02-13 08:53:44'),
-(2, 'b', '$2y$10$bCPbDwojdPpHkGW5.G4RGOyxB4s2Irkyo31XX75kLMdl8sMwtxm/y', 1, 0, '2025-02-13 13:05:09', '2025-02-13 13:05:09');
+(1, 'admin', '$2y$10$hkLx2FMpJy82qSZGzrxNM.qfSJRL973qlydDFi2LbIjy6vucbQDcC', 1, 1, '2025-02-14 18:39:51', '2025-02-14 18:40:57'),
+(2, 'patient_one', '$2y$10$drTGD5/Y2afTpiDtibrDA.wpLuEMv3dg1ObeurKKlec8.9hctjifS', 0, 0, '2025-02-14 18:43:59', '2025-02-14 18:53:26'),
+(3, 'patient_two', '$2y$10$y0vhTQACi63hYp.vmBA.Ber5fv39thdESX.9IDv2hNsbw/19SkdVm', 1, 0, '2025-02-14 18:49:10', '2025-02-14 18:49:10'),
+(4, 'patient_three', '$2y$10$WcBRJO1tRXO3Eq76ij/W6.1gV9euOkpnuToSmySNj9cXmvrboogDS', 1, 0, '2025-02-14 18:50:06', '2025-02-14 18:50:06');
 
 --
 -- Indexes for dumped tables
@@ -103,13 +106,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `personal_informations`
 --
 ALTER TABLE `personal_informations`
-  MODIFY `personal_information_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `personal_information_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
