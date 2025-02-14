@@ -406,6 +406,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                                                             Archive
                                                         </a>  
                                                     ";
+                                                }else{
+                                                    echo "
+                                                        <a href='?action=restoreUser&user_id=" . $row['user_id'] . "' 
+                                                            class='p-1 rounded text-decoration-none'
+                                                            style='color:#FFF; background-color: #143601;'
+                                                            onclick='return confirm(\"Are you sure you want to archive this user?\");'>
+                                                            Restore
+                                                        </a>  
+                                                    ";
                                                 }
                                             "                                           
                                             </div>
