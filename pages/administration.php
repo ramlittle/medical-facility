@@ -25,7 +25,7 @@ if (isset($_POST['createPersonalInformationButton'])) {
     $statement->religion = $_POST['religion'];
     $statement->nationality = $_POST['nationality'];
 
-    $statement->createPersonalInformation();
+    $statement->createPersonalInformation('administration.php');
 }
 
 if (isset($_POST['updatePersonalInformationButton'])) {
@@ -367,6 +367,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
     </div>
 </div>
 
+<!-- Users List -->
 <div class='modal fade' id='seeListOfUsers' data-bs-backdrop='static' data-bs-keyboard='false'>
     <div class='modal-dialog modal-lg'>
         <div class='modal-content'>

@@ -256,7 +256,7 @@ class cl_user
         }
     }
     // Personal informations
-    public function createPersonalInformation(){
+    public function createPersonalInformation($page_to_return_to){
         $query = "INSERT INTO personal_informations 
                 SET image_url = :image_url,
                 given_name = :given_name,
@@ -288,29 +288,49 @@ class cl_user
             $statement->bindParam(':nationality', $this->nationality, PDO::PARAM_STR);
             $statement->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);            
 
-            if ($statement->execute()) {
-                echo "
-                    <script>
-                        let timerInterval;
-                        Swal.fire({
-                            icon: 'success',
-                            html:
-                                '<span>Success!</span>',
-                                showConfirmButton: false,
-                                timer: 1000
-                        }).then(function() {
-                            window.location.href='profile.php';
-                        });
-                    </script>";
-            } else {
-                echo "
-                    <script>
-                        Swal.fire({
-                            title: 'Error',
-                            icon: 'error'
-                        });
-                    </script>";
-            }
+            if($statement->execute()) {
+                if($page_to_return_to==='administration.php'){
+                    echo "
+                        <script>
+                            let timerInterval;
+                            Swal.fire({
+                                icon: 'success',
+                                html:
+                                    '<span>You have successfully ' +
+                                    '<b>updated</b> ' +
+                                    'a record!</span>',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                            }).then(function() {
+                                window.location.href='administration.php';
+                            });
+                        </script>";   		
+                    } else {
+                        echo "
+                            <script>
+                                let timerInterval;
+                                Swal.fire({
+                                    icon: 'success',
+                                    html:
+                                        '<span>You have successfully ' +
+                                        '<b>updated</b> ' +
+                                        'a record!</span>',
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                }).then(function() {
+                                    window.location.href='profile.php';
+                                });
+                            </script>"; 
+                    }
+                }else{
+                    echo "
+                        <script>
+                            Swal.fire({
+                                title: 'Error',
+                                icon: 'error'
+                            });
+                        </script>";
+                }
     }
 
     public function isPersonalInformationExisting($user_id){

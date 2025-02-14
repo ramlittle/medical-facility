@@ -23,7 +23,7 @@ if (isset($_POST['createPersonalInformationButton'])) {
     $personal_information->religion = $_POST['religion'];
     $personal_information->nationality = $_POST['nationality'];
     $personal_information->user_id = $user['user_id'];
-    $personal_information->createPersonalInformation();
+    $personal_information->createPersonalInformation('profile.php');
 }
 
 if (isset($_POST['updatePersonalInformationButton'])) {
