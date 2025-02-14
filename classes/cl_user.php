@@ -169,6 +169,73 @@ class cl_user
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function archiveSelectedUser($user_id){
+        $query = "UPDATE users
+          SET is_active = :is_active
+          WHERE user_id = :user_id";
+
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(':is_active', $this->is_active, PDO::PARAM_INT);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+        if($statement->execute()) {
+            echo "
+            <script>
+                let timerInterval;
+                Swal.fire({
+                    icon: 'success',
+                    html:
+                        '<span>Archiving Successful</span>',
+                        showConfirmButton: false,
+                        timer: 3000
+                }).then(function() {
+                    window.location.href='administration.php';
+                });
+            </script>";   		
+        } else {
+            echo "
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error'
+                });
+            </script>";
+        }
+    }
+    public function restoreSelectedUser($user_id){
+        $query = "UPDATE users
+          SET is_active = :is_active
+          WHERE user_id = :user_id";
+
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(':is_active', $this->is_active, PDO::PARAM_INT);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+        if($statement->execute()) {
+            echo "
+            <script>
+                let timerInterval;
+                Swal.fire({
+                    icon: 'success',
+                    html:
+                        '<span>Archiving Successful</span>',
+                        showConfirmButton: false,
+                        timer: 3000
+                }).then(function() {
+                    window.location.href='administration.php';
+                });
+            </script>";   		
+        } else {
+            echo "
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    icon: 'error'
+                });
+            </script>";
+        }
+    }
     // Personal informations
     public function createPersonalInformation(){
         $query = "INSERT INTO personal_informations 

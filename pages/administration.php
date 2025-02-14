@@ -64,6 +64,20 @@ if (isset($_POST['updatePersonalInformationButton'])) {
 
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'archiveUser' && isset($_GET['user_id'])) { 
+    $user_id = $_GET['user_id'];
+    $statement->user_id = $user_id;
+    $statement->is_active=0;               
+    $statement->archiveSelectedUser($user_id);
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['user_id'])) { 
+    $user_id = $_GET['user_id'];
+    $statement->user_id = $user_id;
+    $statement->is_active=1;               
+    $statement->restoreSelectedUser($user_id);
+}
+
 ?>
 <section>
     <?php include '../partials/menu.php' ?>
@@ -369,7 +383,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                 <th class="align-middle text-center">Create At</th>
                                 <th class="align-middle text-center">User ID</th>
                                 <th class="align-middle text-center">Username</th>
-                                <th class="align-middle text-center">Status</th>
+                                <th class="align-middle text-center">Active</th>
                                 <th class="align-middle text-center">Action</th>
                             </tr>
                         </thead>
@@ -380,15 +394,20 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                         <td class='align-middle text-center'>" . displayDate($row['created_at']) . "</td>                                                                
                                         <td class='align-middle text-center'>" . $row['user_id'] . "</td>                                                                                                                                                                                                           
                                         <td class='align-middle text-center'>" . $row['username'] . "</td>                                        
-                                        <td class='align-middle text-center'>" . $row['is_active'] . "</td>                                        
+                                        <td class='align-middle text-center'>" . displayYesOrNo($row['is_active']) . "</td>                                        
                                         <td class='align-middle text-center'>
-                                            <div class='d-flex flex-column'>
-                                                <a href='#' id='update-personal-information-modal' type='button' class='btn btn-sm' style='color:white; background-color: maroon;'
-                                                    data-bs-toggle='modal' data-bs-target='#updatePersonalInformationModal' 
-                                                    data-bs-toggle='tooltip' title='Update Record' 
-                                                    data-row='" . htmlspecialchars(json_encode($row, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') . "'>
-                                                    <i class='fa-solid fa-trash fa-lg'></i>Archive
-                                                </a>                                                
+                                            <div class='d-flex flex-column'>";
+                                                if($row['is_active']===1){
+                                                    echo "
+                                                        <a href='?action=archiveUser&user_id=" . $row['user_id'] . "' 
+                                                            class='p-1 rounded text-decoration-none'
+                                                            style='color:white;background-color:maroon;'
+                                                            onclick='return confirm(\"Are you sure you want to archive this user?\");'>
+                                                            Archive
+                                                        </a>  
+                                                    ";
+                                                }
+                                            "                                           
                                             </div>
                                         </td>                
                                     </tr>";
@@ -430,19 +449,22 @@ if (isset($_POST['updatePersonalInformationButton'])) {
         var table = $("#userTable").DataTable({
             pagingType: 'full_numbers',
             scrollX: true,
+            autoWidth: false, // Prevents width misalignment
             order: [],
             lengthMenu: [
                 [10, 50, 100, 250, -1],
                 [10, 50, 100, 250, 'All'],
             ],
-            columnDefs:
-                [
-                    {
-                        targets: [0, 1, 2, 3],
-                        orderable: true
-                    }
-                ],
+            columnDefs: [
+                {
+                    targets: [0, 1, 2, 3],
+                    orderable: true
+                }
+            ],
         });
+
+        // Adjust columns when table is fully initialized
+        table.columns.adjust();
     });
 
     // Update Record
