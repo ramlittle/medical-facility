@@ -123,37 +123,56 @@ class cl_user
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
     
-        // Verify password
-        if ($user && password_verify($this->password, $user['password'])) {
-            // Store only necessary data in session
-            $_SESSION['user'] = [
-                'user_id'       => $user['user_id'],
-                'username' => $user['username'],
-                'is_admin' => $user['is_admin'],
-                'is_active'=> $user['is_active']
-            ];
-    
-            // Redirect to dashboard
-            header("Location: ./dashboard.php");
-            exit();
-        } else {
-            // Redirect with error message
+        //verify if user is active
+        if($user && $user['is_active']===1){
+            // Verify password
+            if ($user && password_verify($this->password, $user['password'])) {
+                // Store only necessary data in session
+                $_SESSION['user'] = [
+                    'user_id'       => $user['user_id'],
+                    'username' => $user['username'],
+                    'is_admin' => $user['is_admin'],
+                    'is_active'=> $user['is_active']
+                ];
+        
+                // Redirect to dashboard
+                header("Location: ./dashboard.php");
+                exit();
+            }else{
+                //Redirect with error invalid credentials
+                    echo "
+                    <script>
+                            let timerInterval;
+                            Swal.fire({
+                                icon: 'warning',
+                                html:
+                                    '<span>Login Failed! Invalid Credentials!</span>',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                            }).then(function() {
+                                window.location.href='./login.php?error=1';
+                            });
+                        </script>";
+                exit();
+            }
+        }else {
+            // Redirect with account deactivated
             echo "
                 <script>
                         let timerInterval;
                         Swal.fire({
-                            icon: 'warning',
+                            icon: 'error',
                             html:
-                                '<span>Login Failed! Invalid Credentials!</span>',
+                                '<span>Your Account is deactivated! Please notify the administration.</span>',
                                 showConfirmButton: false,
                                 timer: 3000
                         }).then(function() {
                             window.location.href='./login.php?error=1';
                         });
-                    </script>";
-            // header("Location: ./login.php?error=1");
+                    </script>";            
             exit();
         }
+        
     }
 
     public function readUsers(){
