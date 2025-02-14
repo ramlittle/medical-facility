@@ -354,15 +354,15 @@ if (isset($_POST['updatePersonalInformationButton'])) {
 </div>
 
 <div class='modal fade' id='seeListOfUsers' data-bs-backdrop='static' data-bs-keyboard='false'>
-    <div class='modal-dialog modal-md'>
+    <div class='modal-dialog modal-lg'>
         <div class='modal-content'>
             <div class='modal-header'>
                 <h1 class='modal-title fs-5' id='exampleModalLabel'>List of Registered Users</h1>
                 <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
             <div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped display nowrap" id="itemTable" width="100%"
+                <div class="table-responsive p-2">
+                    <table class="table table-bordered table-striped display nowrap" id="userTable" width="100%"
                         cellspacing="0">
                         <thead>
                             <tr>
@@ -398,6 +398,9 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                     </table>
                 </div>
             </div>
+            <div class="m-2 d-flex justify-content-center">
+                <strong class="text-center" style="color: purple;">Reminder: If you would like to disable a user's access to the system, 'Archive' the user login so that it will be temporary deleted. You may 'Restore' the user account whenever necessary.</strong>
+            </div>
         </div>
     </div>
 </div>
@@ -417,6 +420,25 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                 [
                     {
                         targets: [0, 1, 2, 3, 4, 5],
+                        orderable: true
+                    }
+                ],
+        });
+    });
+
+    $(document).ready(function () {
+        var table = $("#userTable").DataTable({
+            pagingType: 'full_numbers',
+            scrollX: true,
+            order: [],
+            lengthMenu: [
+                [10, 50, 100, 250, -1],
+                [10, 50, 100, 250, 'All'],
+            ],
+            columnDefs:
+                [
+                    {
+                        targets: [0, 1, 2, 3],
                         orderable: true
                     }
                 ],
