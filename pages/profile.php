@@ -40,6 +40,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
     $personal_information->employment_status = $_POST['update_employment_status'];
     $personal_information->religion = $_POST['update_religion'];
     $personal_information->nationality = $_POST['update_nationality'];
+    $personal_information->user_id = $_POST['update_user_id'];
     
     $personal_information->updatePersonalInformation('profile.php');
 }
@@ -340,7 +341,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                             </div>
                         </div>
                         <div class='row'>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Employment Status</small>
                                 <select id='update-employment-status' name='update_employment_status'
                                     class='form-control form-control-sm'>
@@ -349,15 +350,20 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Self Employed'>Self Employed</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Religion</small>
                                 <input type='text' id='update-religion' name='update_religion' class='form-control form-control-sm'
                                     placeholder='Example: Roman Catholic' required />
                             </div>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Nationality</small>
                                 <input type='text' id='update-nationality' name='update_nationality'
                                     class='form-control form-control-sm' placeholder='Example: Filipino' required />
+                            </div>
+                            <div class='form-group col-md-3'>
+                                <small class='font-weight-bold mt-1'>User Id</small>
+                                <input type='text' id='update-user-id' name='update_user_id'
+                                    class='form-control form-control-sm' placeholder='' readonly />
                             </div>
                         </div>
                     </div>
@@ -392,6 +398,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
             $('#update-employment-status').val(rowData.employment_status);
             $('#update-religion').val(rowData.religion);
             $('#update-nationality').val(rowData.nationality);
+            $('#update-user-id').val(rowData.user_id);
         });
     });
 </script>

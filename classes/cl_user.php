@@ -25,13 +25,23 @@ class cl_user
     public $religion;
     public $nationality;
 
-
     public function __construct($dbase)
     {
         $this->conn = $dbase;
     }
 
     // Users
+
+    public function isUserIdExists($userId)
+    {
+        $query = "SELECT COUNT(*) as count FROM users WHERE user_id = ?";
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(1, $userId);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $row['count'] > 0;
+    }
     public function isUsernameExists($username)
     {
         $query = "SELECT COUNT(*) as count FROM users WHERE username = ?";
@@ -89,14 +99,14 @@ class cl_user
                             window.location.href='login.php';
                         });
                     </script>";
-                                } else {
-                                    echo "
-                    <script>
-                        Swal.fire({
-                            title: 'Error',
-                            icon: 'error'
-                        });
-                    </script>";
+                } else {
+                    echo "
+                        <script>
+                            Swal.fire({
+                                title: 'Error',
+                                icon: 'error'
+                            });
+                        </script>";
             }
         }
     }
@@ -254,7 +264,8 @@ class cl_user
                     civil_status = :civil_status,
                     employment_status = :employment_status,
                     religion = :religion,
-                    nationality = :nationality
+                    nationality = :nationality,
+                    user_id = :user_id
                     WHERE personal_information_id = :personal_information_id";        
         $statement = $this->conn->prepare($query);        
         
@@ -270,8 +281,9 @@ class cl_user
         $statement->bindParam(':employment_status', $this->employment_status, PDO::PARAM_STR);
         $statement->bindParam(':religion', $this->religion, PDO::PARAM_STR);
         $statement->bindParam(':nationality', $this->nationality, PDO::PARAM_STR);
+        $statement->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
         $statement->bindParam(':personal_information_id', $this->personal_information_id, PDO::PARAM_INT);
-        
+          
         if($statement->execute()) {
             if($page_to_return_to==='administration.php'){
                 echo "
@@ -344,5 +356,4 @@ class cl_user
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 }

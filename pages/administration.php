@@ -25,8 +25,26 @@ if (isset($_POST['updatePersonalInformationButton'])) {
     $statement->employment_status = $_POST['update_employment_status'];
     $statement->religion = $_POST['update_religion'];
     $statement->nationality = $_POST['update_nationality'];
+    $statement->user_id = $_POST['update_user_id'];
     
-    $statement->updatePersonalInformation('administration.php');
+    if($statement->isUserIdExists($_POST['update_user_id'])){
+        $statement->updatePersonalInformation('administration.php');
+    }else{
+        echo "
+            <script>
+            let timerInterval;
+            Swal.fire({
+                icon: 'warning',
+                html:
+                    '<span>Updating Failed! Make sure the User Id exists!</span>',
+                    showConfirmButton: false,
+                    timer: 5000
+            }).then(function() {
+                window.location.href='administration.php';
+            });
+            </script>";
+    }
+    
 }
 
 ?>
@@ -158,7 +176,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                             </div>
                         </div>
                         <div class='row'>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Employment Status</small>
                                 <select id='update-employment-status' name='update_employment_status'
                                     class='form-control form-control-sm'>
@@ -167,14 +185,19 @@ if (isset($_POST['updatePersonalInformationButton'])) {
                                     <option value='Self Employed'>Self Employed</option>
                                 </select>
                             </div>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Religion</small>
                                 <input type='text' id='update-religion' name='update_religion' class='form-control form-control-sm'
                                     placeholder='Example: Roman Catholic' required />
                             </div>
-                            <div class='form-group col-md-4'>
+                            <div class='form-group col-md-3'>
                                 <small class='font-weight-bold mt-1'>Nationality</small>
                                 <input type='text' id='update-nationality' name='update_nationality'
+                                    class='form-control form-control-sm' placeholder='Example: Filipino' required />
+                            </div>
+                            <div class='form-group col-md-3'>
+                                <small class='font-weight-bold mt-1'>User Id</small>
+                                <input type='text' id='update-user-id' name='update_user_id'
                                     class='form-control form-control-sm' placeholder='Example: Filipino' required />
                             </div>
                         </div>
@@ -228,6 +251,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
             $('#update-employment-status').val(rowData.employment_status);
             $('#update-religion').val(rowData.religion);
             $('#update-nationality').val(rowData.nationality);
+            $('#update-user-id').val(rowData.user_id);
         });
     });
 </script>
