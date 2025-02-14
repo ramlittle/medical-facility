@@ -156,6 +156,19 @@ class cl_user
         }
     }
 
+    public function readUsers(){
+        $query = "SELECT 
+                user_id,
+                username,
+                is_active,
+                created_at
+                FROM users";
+
+        $statement = $this->conn->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
     // Personal informations
     public function createPersonalInformation(){
         $query = "INSERT INTO personal_informations 
