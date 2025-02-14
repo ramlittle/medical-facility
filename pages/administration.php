@@ -64,17 +64,17 @@ if (isset($_POST['updatePersonalInformationButton'])) {
 
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'archiveUser' && isset($_GET['user_id'])) { 
+if (isset($_GET['action']) && $_GET['action'] === 'archiveUser' && isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
     $statement->user_id = $user_id;
-    $statement->is_active=0;               
+    $statement->is_active = 0;
     $statement->archiveSelectedUser($user_id);
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['user_id'])) { 
+if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
     $statement->user_id = $user_id;
-    $statement->is_active=1;               
+    $statement->is_active = 1;
     $statement->restoreSelectedUser($user_id);
 }
 
@@ -136,6 +136,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                     }
                     ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Sex</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -398,8 +408,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                                         <td class='align-middle text-center'>" . displayYesOrNo($row['is_active']) . "</td>                                        
                                         <td class='align-middle text-center'>
                                             <div class='d-flex flex-column'>";
-                                                if($row['is_active']===1){
-                                                    echo "
+                                if ($row['is_active'] === 1) {
+                                    echo "
                                                         <a href='?action=archiveUser&user_id=" . $row['user_id'] . "' 
                                                             class='p-1 rounded text-decoration-none'
                                                             style='color:white;background-color:maroon;'
@@ -407,8 +417,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                                                             Archive
                                                         </a>  
                                                     ";
-                                                }else{
-                                                    echo "
+                                } else {
+                                    echo "
                                                         <a href='?action=restoreUser&user_id=" . $row['user_id'] . "' 
                                                             class='p-1 rounded text-decoration-none'
                                                             style='color:#FFF; background-color: #143601;'
@@ -416,8 +426,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                                                             Restore
                                                         </a>  
                                                     ";
-                                                }
-                                            "                                           
+                                }
+                                "                                           
                                             </div>
                                         </td>                
                                     </tr>";
@@ -428,7 +438,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                 </div>
             </div>
             <div class="m-2 d-flex justify-content-center">
-                <strong class="text-center" style="color: purple;">Reminder: If you would like to disable a user's access to the system, 'Archive' the user login so that it will be temporary deleted. You may 'Restore' the user account whenever necessary.</strong>
+                <strong class="text-center" style="color: purple;">Reminder: If you would like to disable a user's
+                    access to the system, 'Archive' the user login so that it will be temporary deleted. You may
+                    'Restore' the user account whenever necessary.</strong>
             </div>
         </div>
     </div>
@@ -445,13 +457,34 @@ if (isset($_GET['action']) && $_GET['action'] === 'restoreUser' && isset($_GET['
                 [10, 50, 100, 250, -1],
                 [10, 50, 100, 250, 'All'],
             ],
-            columnDefs:
-                [
-                    {
-                        targets: [0, 1, 2, 3, 4, 5],
-                        orderable: true
+            columnDefs: [
+                {
+                    targets: [0, 1, 2, 3, 4, 5],
+                    orderable: true
+                },
+                {
+                    targets: 3,
+                    render: function (data) {
+                        return data;
                     }
-                ],
+                }
+            ],
+            initComplete: function () {
+                var api = this.api();
+                api.columns(3).every(function () {
+                    var column = this;
+                    var select = $('<select><option value="">All</option><option value="Male">Male</option><option value="Female">Female</option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+                });
+            }
         });
     });
 
