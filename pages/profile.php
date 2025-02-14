@@ -7,7 +7,7 @@ include_once '../classes/cl_user.php';
 $db = new db_medical_facility();
 $dbase = $db->getConnection();
 $personal_information = new cl_user($dbase);
-$obtained_personal_information = $personal_information->readPersonalInformation($user['user_id']);
+$obtained_personal_information = $personal_information->readPersonalInformationPerUserId($user['user_id']);
 
 if (isset($_POST['createPersonalInformationButton'])) {
     $personal_information->image_url = $_POST['image_url'];
@@ -41,7 +41,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
     $personal_information->religion = $_POST['update_religion'];
     $personal_information->nationality = $_POST['update_nationality'];
     
-    $personal_information->updatePersonalInformation();
+    $personal_information->updatePersonalInformation('profile.php');
 }
 ?>
 <section>
@@ -267,7 +267,7 @@ if (isset($_POST['updatePersonalInformationButton'])) {
         <div class='modal-dialog modal-xl'>
             <div class='modal-content'>
                 <div class='modal-header'>
-                    <h1 class='modal-title fs-5' id='exampleModalLabel'>Create Personal Information</h1>
+                    <h1 class='modal-title fs-5' id='exampleModalLabel'>Update Personal Information</h1>
                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                 </div>
                 <form method='POST' autocomplete='false'>

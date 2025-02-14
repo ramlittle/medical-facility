@@ -4,4 +4,10 @@
         return $currentPage === $page ? 'text-decoration-underline' : '';
     }
 
+    function isUserAdmin($is_admin){
+        if($is_admin){
+            return true;
+        }
+        return false;
+    }
 ?>

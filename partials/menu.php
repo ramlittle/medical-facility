@@ -6,6 +6,16 @@
                 >Dashboard
             </a>
         </li>
+        <?php
+            if(isUserAdmin($user['is_admin'])){
+                echo "
+                    <li>
+                        <a class='text-white' href='./administration.php'>Administration</a>
+                    </li>
+                ";
+            }   
+            
+        ?>
         <li>
             <a class='<?php echo checkActivePage('my_profile');?> text-white' href="./profile.php"
                 >My Profile
